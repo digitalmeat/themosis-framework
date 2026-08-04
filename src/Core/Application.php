@@ -28,6 +28,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Themosis\Core\Bootstrap\EnvironmentLoader;
 use Themosis\Core\Events\LocaleUpdated;
+use Themosis\Core\Foundation\FileBasedMaintenanceMode;
 use Themosis\Route\RouteServiceProvider;
 
 class Application extends Container implements
@@ -760,6 +761,16 @@ class Application extends Container implements
     }
 
     /**
+     * Get an instance of the maintenance mode manager implementation.
+     *
+     * @return \Illuminate\Contracts\Foundation\MaintenanceMode
+     */
+    public function maintenanceMode()
+    {
+        return new FileBasedMaintenanceMode($this->storagePath('framework/maintenance.php'));
+    }
+
+    /**
      * Register all of the configured providers.
      */
     public function registerConfiguredProviders()
@@ -991,7 +1002,7 @@ class Application extends Container implements
      *
      * @return Response A Response instance
      */
-    public function handle(SymfonyRequest $request, $type = self::MASTER_REQUEST, $catch = true)
+    public function handle(SymfonyRequest $request, int $type = self::MAIN_REQUEST, bool $catch = true): Response
     {
         return $this[HttpKernelContract::class]->handle(Request::createFromBase($request));
     }
@@ -1418,11 +1429,11 @@ class Application extends Container implements
     /**
      * Register a terminating callback with the application.
      *
-     * @param Closure $callback
+     * @param callable|string $callback
      *
      * @return $this
      */
-    public function terminating(Closure $callback)
+    public function terminating($callback)
     {
         $this->terminatingCallbacks[] = $callback;
 

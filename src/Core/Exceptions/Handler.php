@@ -180,7 +180,7 @@ class Handler implements ExceptionHandler
      *
      * @return $this
      */
-    protected function ignore(string $class)
+    public function ignore(string $class)
     {
         $this->dontReport[] = $class;
 
