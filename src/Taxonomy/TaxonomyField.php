@@ -134,6 +134,14 @@ class TaxonomyField
                 $this->getTermPlaceholders(),
             );
 
+            // As of Laravel 9, array keys without a matching wildcard rule
+            // (e.g. "field.*") are excluded from valid()/validated() by
+            // default. Taxonomy field rules only ever target the top-level
+            // field name (checkbox/choice fields submit as plain arrays with
+            // no wildcard rule defined), so keep the pre-9 inclusive
+            // behaviour here to avoid silently discarding array values.
+            $validator->excludeUnvalidatedArrayKeys = false;
+
             $validation = $validator->valid();
 
             return $validation[$key] ?? null;
@@ -155,6 +163,11 @@ class TaxonomyField
                 $this->getTermMessages(),
                 $this->getTermPlaceholders(),
             );
+
+            // See the note in sanitize() above: preserve pre-Laravel-9
+            // behaviour so array-based fields (checkboxes, multi-select
+            // choices) are not stripped from the validated data.
+            $validator->excludeUnvalidatedArrayKeys = false;
 
             $validation = $validator->valid();
 
