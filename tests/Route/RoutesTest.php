@@ -5,7 +5,11 @@ use Illuminate\Contracts\Routing\Registrar;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Routing\CallableDispatcher;
+use Illuminate\Routing\Contracts\CallableDispatcher as CallableDispatcherContract;
+use Illuminate\Routing\Contracts\ControllerDispatcher as ControllerDispatcherContract;
 use Illuminate\Routing\Controller;
+use Illuminate\Routing\ControllerDispatcher;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -698,6 +702,13 @@ class RoutesTest extends TestCase
         $router = new Router(new Dispatcher(), $container);
         $container->singleton(Registrar::class, function () use ($router) {
             return $router;
+        });
+
+        $container->bind(ControllerDispatcherContract::class, function ($app) {
+            return new ControllerDispatcher($app);
+        });
+        $container->bind(CallableDispatcherContract::class, function ($app) {
+            return new CallableDispatcher($app);
         });
 
         return $router;
