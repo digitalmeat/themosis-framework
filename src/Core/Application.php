@@ -1646,6 +1646,32 @@ class Application extends Container implements
     }
 
     /**
+     * Get the application's fallback locale.
+     *
+     * Not part of Illuminate\Contracts\Foundation\Application, but called
+     * directly on the bound "app" instance by Illuminate\Translation\
+     * TranslationServiceProvider::register() -- mirrors Illuminate\Foundation\
+     * Application::getFallbackLocale(), which this class does not extend.
+     *
+     * @return string
+     */
+    public function getFallbackLocale()
+    {
+        return $this['config']->get('app.fallback_locale');
+    }
+
+    /**
+     * Set the application's fallback locale.
+     *
+     * @param string $locale
+     */
+    public function setFallbackLocale($locale)
+    {
+        $this['config']->set('app.fallback_locale', $locale);
+        $this['translator']->setFallback($locale);
+    }
+
+    /**
      * Return the application namespace.
      *
      * @throws \RuntimeException
