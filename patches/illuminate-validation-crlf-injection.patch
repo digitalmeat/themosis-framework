@@ -1,0 +1,31 @@
+CVE-2026-48019 / PKSA-zwc5-qtrz-zm1n / GHSA-5vg9-5847-vvmq
+"Laravel CRLF injection in default email rule"
+
+illuminate/validation is flagged as vulnerable for EVERY tag matching
+>=9.0.0,<10.0.0 | >=10.0.0,<11.0.0 | >=11.0.0,<12.0.0 (and 12.x below
+12.60.0, 13.x below 13.10.0) -- there is no patched 11.x release to
+require instead. Backports the upstream fix (illuminate/validation commit
+297cff9c69885b1a9125ee4f26f77ef570abb2b6, "port fix", released in 12.60.0)
+into ValidatesAttributes::validateEmail(): reject any input containing a
+CR or LF character before it reaches the rest of the email validation
+chain, closing the header-injection path into outbound mail.
+
+Paired with the "ignore-id": ["PKSA-zwc5-qtrz-zm1n"] entry in
+composer.json's audit policy -- that entry exists so Composer's resolver
+doesn't refuse this advisory-flagged (but now patched) tag and fall back
+to an unreleased -dev branch instead. Ignoring the advisory without this
+patch would be masking the CVE rather than fixing it.
+
+--- a/Concerns/ValidatesAttributes.php	2026-08-04 23:35:02
++++ b/Concerns/ValidatesAttributes.php	2026-08-04 23:35:02
+@@ -909,6 +909,10 @@
+     public function validateEmail($attribute, $value, $parameters)
+     {
+         if (! is_string($value) && ! (is_object($value) && method_exists($value, '__toString'))) {
++            return false;
++        }
++
++        if (preg_match('/[\r\n]/', (string) $value) > 0) {
+             return false;
+         }
+
