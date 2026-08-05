@@ -138,6 +138,13 @@ class Application extends Container implements
 
     protected $storagePath;
 
+    /**
+     * Custom public / web path, if set via usePublicPath().
+     *
+     * @var string
+     */
+    protected $publicPath;
+
     public function __construct($basePath = null)
     {
         if ($basePath) {
@@ -425,7 +432,7 @@ class Application extends Container implements
         // Config
         $this->instance('path.config', $this->configPath());
         // Public
-        $this->instance('path.public', $this->webPath());
+        $this->instance('path.public', $this->publicPath());
         // Storage
         $this->instance('path.storage', $this->storagePath());
         // Database
@@ -542,6 +549,36 @@ class Application extends Container implements
     public function webPath($path = '')
     {
         return $this->basePath(THEMOSIS_PUBLIC_DIR) . ($path ? DIRECTORY_SEPARATOR . $path : $path);
+    }
+
+    /**
+     * Get the path to the public / web directory.
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    public function publicPath($path = '')
+    {
+        return $this->publicPath
+            ? $this->publicPath . ($path ? DIRECTORY_SEPARATOR . $path : $path)
+            : $this->webPath($path);
+    }
+
+    /**
+     * Set the public / web directory.
+     *
+     * @param string $path
+     *
+     * @return $this
+     */
+    public function usePublicPath($path)
+    {
+        $this->publicPath = $path;
+
+        $this->instance('path.public', $path);
+
+        return $this;
     }
 
     /**
@@ -740,6 +777,16 @@ class Application extends Container implements
     public function runningInConsole()
     {
         return php_sapi_name() == 'cli' || php_sapi_name() == 'phpdbg';
+    }
+
+    /**
+     * Determine if the application is running with debug mode enabled.
+     *
+     * @return bool
+     */
+    public function hasDebugModeEnabled()
+    {
+        return (bool) $this['config']->get('app.debug');
     }
 
     /**
@@ -1011,12 +1058,11 @@ class Application extends Container implements
      * Register a service provider with the application.
      *
      * @param \Illuminate\Support\ServiceProvider|string $provider
-     * @param array                                      $options
      * @param bool                                       $force
      *
      * @return \Illuminate\Support\ServiceProvider
      */
-    public function register($provider, $options = [], $force = false)
+    public function register($provider, $force = false)
     {
         if (($registered = $this->getProvider($provider)) && ! $force) {
             return $registered;
