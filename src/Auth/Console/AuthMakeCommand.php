@@ -3,13 +3,10 @@
 namespace Themosis\Auth\Console;
 
 use Illuminate\Console\Command;
-use Illuminate\Console\DetectsApplicationNamespace;
 use Illuminate\Filesystem\Filesystem;
 
 class AuthMakeCommand extends Command
 {
-    use DetectsApplicationNamespace;
-
     /**
      * The console command name and signature.
      *
@@ -196,5 +193,20 @@ class AuthMakeCommand extends Command
             $this->getAppNamespace(),
             $content,
         );
+    }
+
+    /**
+     * Get the application namespace.
+     *
+     * The `Illuminate\Console\DetectsApplicationNamespace` trait this command
+     * relied on was deprecated in Laravel 6.x and removed in Laravel 7.0, and
+     * no longer exists in illuminate/console ^10.0. Resolve the namespace
+     * directly from the command's bound container instead.
+     *
+     * @return string
+     */
+    protected function getAppNamespace()
+    {
+        return $this->getLaravel()->getNamespace();
     }
 }
