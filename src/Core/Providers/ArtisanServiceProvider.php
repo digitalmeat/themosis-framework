@@ -637,8 +637,8 @@ class ArtisanServiceProvider extends ServiceProvider implements DeferrableProvid
      */
     protected function registerMigrateFreshCommand($alias)
     {
-        $this->app->singleton($alias, function () {
-            return new FreshCommand();
+        $this->app->singleton($alias, function ($app) {
+            return new FreshCommand($app['migrator']);
         });
     }
 
