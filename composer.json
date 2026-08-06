@@ -1,11 +1,11 @@
 {
   "name": "themosis/framework",
-  "description": "The Themosis framework.",
+  "description": "The Themosis framework (digitalmeat fork, maintained on Illuminate ^11.0 -- upstream is stuck on ^8.83 since 2023).",
   "keywords": ["themosis", "framework", "wordpress"],
   "license": "GPL-2.0-or-later",
   "support": {
-    "issues": "https://github.com/themosis/framework/issues",
-    "source": "https://github.com/themosis/framework"
+    "issues": "https://github.com/digitalmeat/themosis-framework/issues",
+    "source": "https://github.com/digitalmeat/themosis-framework"
   },
   "authors": [
     {

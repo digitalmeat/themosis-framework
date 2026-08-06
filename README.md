@@ -1,8 +1,16 @@
-Themosis framework
-==================
+Themosis framework (digitalmeat fork)
+======================================
 
-[![Build Status](https://travis-ci.com/themosis/framework.svg?branch=develop)](https://travis-ci.com/themosis/framework)
-[![Join the chat at https://gitter.im/themosis/framework](https://badges.gitter.im/themosis/framework.svg)](https://gitter.im/themosis/framework?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Tests](https://github.com/digitalmeat/themosis-framework/actions/workflows/tests.yml/badge.svg)](https://github.com/digitalmeat/themosis-framework/actions/workflows/tests.yml)
+
+This is a maintained fork of [themosis/framework](https://github.com/themosis/framework), which has been stuck at `3.1.0` (Illuminate `^8.83`, Laravel 8, EOL since 2023) since its last commit in February 2023. This fork picks up where upstream stopped:
+
+| Version | Illuminate | Notes |
+|---|---|---|
+| `3.1.0` | `^8.83` | Same as upstream's last release. |
+| `3.2.0` | `^11.0` | Migrated through 9 -> 10 -> 11. See branches `illuminate-9`, `illuminate-10`, `illuminate-11` for the intermediate states, and each's commit history for what changed at every step. |
+
+`3.2.0` is the current recommended version. `illuminate-11` is kept as an active branch for ongoing work past `3.2.0`; tag new releases from it as work lands.
 
 The Themosis framework is a WordPress focused framework. It helps you develop enterprise level WordPress application and website using an elegant and simple code syntax.
 
