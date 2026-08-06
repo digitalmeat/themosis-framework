@@ -9,8 +9,9 @@ This is a maintained fork of [themosis/framework](https://github.com/themosis/fr
 |---|---|---|
 | `3.1.0` | `^8.83` | Same as upstream's last release. |
 | `3.2.0` | `^11.0` | Migrated through 9 -> 10 -> 11. See branches `illuminate-9`, `illuminate-10`, `illuminate-11` for the intermediate states, and each's commit history for what changed at every step. |
+| `3.3.0` | `^12.0` | Much lighter than 8->11 -- none of Laravel 12's breaking changes touched code this framework overrides. |
 
-`3.2.0` is the current recommended version. `illuminate-11` is kept as an active branch for ongoing work past `3.2.0`; tag new releases from it as work lands.
+`3.3.0` is the current recommended version. `illuminate-12` is kept as an active branch for ongoing work past `3.3.0`; tag new releases from it as work lands.
 
 The Themosis framework is a WordPress focused framework. It helps you develop enterprise level WordPress application and website using an elegant and simple code syntax.
 
