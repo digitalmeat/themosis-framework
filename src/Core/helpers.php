@@ -25,6 +25,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Themosis\Core\Bus\PendingDispatch;
 use Themosis\Core\Mix;
+use Themosis\Core\Vite;
 
 if (! function_exists('abort')) {
     /**
@@ -1141,6 +1142,23 @@ if (! function_exists('validator')) {
         }
 
         return $factory->make($data, $rules, $messages, $customAttributes);
+    }
+}
+
+if (! function_exists('vite')) {
+    /**
+     * Get the HTML tags for one or more Vite entry points.
+     *
+     * @param string|array $entrypoints
+     * @param string       $manifestDirectory
+     *
+     * @throws \Exception
+     *
+     * @return \Illuminate\Support\HtmlString
+     */
+    function vite($entrypoints, $manifestDirectory = '')
+    {
+        return app(Vite::class)(...func_get_args());
     }
 }
 
