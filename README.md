@@ -12,8 +12,9 @@ This is a maintained fork of [themosis/framework](https://github.com/themosis/fr
 | `3.3.0` | `^12.0` | Much lighter than 8->11 -- none of Laravel 12's breaking changes touched code this framework overrides. |
 | `3.4.0` | `^12.0` | Adds `Themosis\Core\Vite`, a WP-aware equivalent of `Illuminate\Foundation\Vite` (never a dependency of this framework) for consumers replacing Laravel Mix with Vite. `Themosis\Core\Mix` is untouched -- both coexist. Also fixes a real regression from `3.3.0`: `ClosureCommand::execute()` didn't match `Illuminate\Console\Command`'s new `: int` return type, which fataled every artisan invocation at class-load time. |
 | `3.4.1` | `^12.0` | Fixes `artisan migrate` (and every other `#[AsCommand]`-attributed command, e.g. `migrate:fresh`/`migrate:rollback`/`migrate:status`) silently reporting "Command is not defined" -- `Themosis\Core\Console\Kernel::getArtisan()` was missing the `->setContainerCommandLoader()` call that `Illuminate\Foundation\Console\Kernel` makes upstream. |
+| `3.4.2` | `^12.0` | Moves to Flysystem 3 (`league/flysystem` and `league/flysystem-local` `^3.25.1`): Illuminate 12 builds local disks with Flysystem 3 classes, so every `Storage::disk()` on a local driver failed with a missing `PortableVisibilityConverter`. `VendorPublishCommand` is ported to the Flysystem 3 API. Also registers `Illuminate\Log\Context\ContextServiceProvider` as a base provider, as Illuminate 11+ does, so consumers no longer add it to their `config/app.php`. |
 
-`3.4.1` is the current recommended version. `illuminate-12` is kept as an active branch for ongoing work past `3.4.1`; tag new releases from it as work lands.
+`3.4.2` is the current recommended version. `illuminate-12` is kept as an active branch for ongoing work past `3.4.2`; tag new releases from it as work lands.
 
 The Themosis framework is a WordPress focused framework. It helps you develop enterprise level WordPress application and website using an elegant and simple code syntax.
 

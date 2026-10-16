@@ -13,6 +13,7 @@ use Illuminate\Contracts\Http\Kernel as HttpKernelContract;
 use Illuminate\Events\EventServiceProvider;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
+use Illuminate\Log\Context\ContextServiceProvider;
 use Illuminate\Log\LogServiceProvider;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -188,6 +189,7 @@ class Application extends Container implements
     {
         $this->register(new EventServiceProvider($this));
         $this->register(new LogServiceProvider($this));
+        $this->register(new ContextServiceProvider($this));
         $this->register(new RouteServiceProvider($this));
     }
 
