@@ -3,10 +3,12 @@
 namespace Themosis\Tests\Core;
 
 use Illuminate\Container\Container;
+use Illuminate\Contracts\Log\ContextLogProcessor;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Events\EventServiceProvider;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
+use Illuminate\Log\Context\ContextServiceProvider;
 use Illuminate\Log\LogServiceProvider;
 use Illuminate\Support\ServiceProvider;
 use PHPUnit\Framework\TestCase;
@@ -154,10 +156,23 @@ class ApplicationTest extends TestCase
             'Log service provider is not registered',
         );
         $this->assertInstanceOf(
+            'Illuminate\Log\Context\ContextServiceProvider',
+            $app->getProvider(ContextServiceProvider::class),
+            'Context service provider is not registered',
+        );
+        $this->assertInstanceOf(
             'Themosis\Route\RouteServiceProvider',
             $app->getProvider(RouteServiceProvider::class),
             'Route service provider is not registered',
         );
+    }
+
+    public function testContextLogProcessorIsResolvableSoTheLogManagerCanBuildALogger()
+    {
+        $path = realpath(__DIR__ . '/../');
+        $app = new Application($path);
+
+        $this->assertInstanceOf(ContextLogProcessor::class, $app->make(ContextLogProcessor::class));
     }
 
     public function testServiceProvidersAreCorrectlyRegistered()
