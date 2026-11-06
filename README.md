@@ -13,8 +13,9 @@ This is a maintained fork of [themosis/framework](https://github.com/themosis/fr
 | `3.4.0` | `^12.0` | Adds `Themosis\Core\Vite`, a WP-aware equivalent of `Illuminate\Foundation\Vite` (never a dependency of this framework) for consumers replacing Laravel Mix with Vite. `Themosis\Core\Mix` is untouched -- both coexist. Also fixes a real regression from `3.3.0`: `ClosureCommand::execute()` didn't match `Illuminate\Console\Command`'s new `: int` return type, which fataled every artisan invocation at class-load time. |
 | `3.4.1` | `^12.0` | Fixes `artisan migrate` (and every other `#[AsCommand]`-attributed command, e.g. `migrate:fresh`/`migrate:rollback`/`migrate:status`) silently reporting "Command is not defined" -- `Themosis\Core\Console\Kernel::getArtisan()` was missing the `->setContainerCommandLoader()` call that `Illuminate\Foundation\Console\Kernel` makes upstream. |
 | `3.4.2` | `^12.0` | Registers `Illuminate\Log\Context\ContextServiceProvider` as a base service provider, as `Illuminate\Foundation\Application` does upstream. Without it, Illuminate 12's `LogManager` could not resolve `Illuminate\Contracts\Log\ContextLogProcessor`, so every log call fell back to the emergency logger and wrote `Unable to create configured logger` with a full stack trace. |
+| `3.4.3` | `^12.0` | `league/flysystem` `^1.1` → `^3.35.3`. Every 1.x release is affected by security advisory `PKSA-w9tt-7782-78jx`, which Composer now blocks, so the package could no longer be installed. `VendorPublishCommand` (the only Flysystem consumer) ported to the Flysystem 3 API, matching `Illuminate\Foundation\Console\VendorPublishCommand`. |
 
-`3.4.2` is the current recommended version. `illuminate-12` is kept as an active branch for ongoing work past `3.4.2`; tag new releases from it as work lands.
+`3.4.3` is the current recommended version. `illuminate-12` is kept as an active branch for ongoing work past `3.4.3`; tag new releases from it as work lands.
 
 The Themosis framework is a WordPress focused framework. It helps you develop enterprise level WordPress application and website using an elegant and simple code syntax.
 
