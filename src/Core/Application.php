@@ -41,14 +41,17 @@ class Application extends Container implements
     /**
      * Themosis framework version.
      */
-    public const THEMOSIS_VERSION = '3.1.0';
+    public const THEMOSIS_VERSION = '3.4.4';
 
     /**
-     * Laravel version.
+     * Laravel version, reported by app()->version().
+     *
+     * Packages compare it to pick code paths for a given Laravel release, so
+     * it must follow the illuminate/* major this framework requires.
      *
      * @var string
      */
-    public const VERSION = '8.0.0';
+    public const VERSION = '12.0.0';
 
     /**
      * Application textdomain.
