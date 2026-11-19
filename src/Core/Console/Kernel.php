@@ -262,7 +262,7 @@ class Kernel implements KernelContract
     protected function getArtisan()
     {
         if (is_null($this->artisan)) {
-            $artisan = new Artisan($this->app, $this->events, $this->app->version());
+            $artisan = new Artisan($this->app, $this->events, \Themosis\Core\Application::THEMOSIS_VERSION);
             $artisan->setName('Themosis Framework');
 
             return $this->artisan = $artisan->resolveCommands($this->commands)
